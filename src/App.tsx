@@ -7,25 +7,31 @@ import { Good } from './types/Good';
 // or
 // import * as goodsAPI from './api/goods';
 
-export const App: React.FC = () => {
+export const App: React.FC = React.memo(function App() {
   const [goods, setGoods] = useState<Good[]>([]);
 
   const handleAllGoods = () => {
-    getAll().then(allGoods => {
-      setGoods(allGoods);
-    });
+    getAll()
+      .then(setGoods)
+      .catch(() => {
+        setGoods([]);
+      });
   };
 
   const handle5FirstGoods = () => {
-    get5First().then(firstFiveGoods => {
-      setGoods(firstFiveGoods);
-    });
+    get5First()
+      .then(setGoods)
+      .catch(() => {
+        setGoods([]);
+      });
   };
 
   const handleRedGoods = () => {
-    getRedGoods().then(redGoods => {
-      setGoods(redGoods);
-    });
+    getRedGoods()
+      .then(setGoods)
+      .catch(() => {
+        setGoods([]);
+      });
   };
 
   return (
@@ -51,4 +57,4 @@ export const App: React.FC = () => {
       <GoodsList goods={goods} />
     </div>
   );
-};
+});
